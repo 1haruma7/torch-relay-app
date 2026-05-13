@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>聖火リレーゲージ</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="scoreboard" aria-live="polite">
+      <section class="panel">
+        <div class="topline">
+          <p class="event-name">聖火リレー</p>
+          <p id="status" class="status">進行中</p>
+        </div>
+
+        <div class="score-wrap">
+          <span id="score" class="score">100</span>
+          <span class="unit">点</span>
+        </div>
+
+        <div
+          class="gauge"
+          role="meter"
+          aria-label="残り点数"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="100"
+        >
+          <div id="gaugeFill" class="gauge-fill"></div>
+        </div>
+
+        <div class="controls">
+          <span>Space: -1</span>
+          <span>Enter: 停止</span>
+        </div>
+
+        <div class="utility-buttons" aria-label="補助操作">
+          <button id="resumeButton" class="utility-button" type="button">再開</button>
+          <button id="resetButton" class="utility-button" type="button">リセット</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
