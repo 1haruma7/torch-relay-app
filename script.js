@@ -3,6 +3,7 @@ const URGENCY_CLASSES = ["urgency-low", "urgency-medium", "urgency-high", "urgen
 
 let score = INITIAL_SCORE;
 let stopped = false;
+let musicOn = false;
 
 const scoreboard = document.querySelector(".scoreboard");
 const panel = document.querySelector(".panel");
@@ -10,8 +11,13 @@ const scoreEl = document.querySelector("#score");
 const statusEl = document.querySelector("#status");
 const gauge = document.querySelector(".gauge");
 const gaugeFill = document.querySelector("#gaugeFill");
+const musicButton = document.querySelector("#musicButton");
 const resumeButton = document.querySelector("#resumeButton");
 const resetButton = document.querySelector("#resetButton");
+const music = new Audio("assets/heaven-and-hell.wav");
+
+music.loop = true;
+music.preload = "auto";
 
 function getUrgencyClass() {
   if (score === 0) return "score-empty";
@@ -42,6 +48,22 @@ function render() {
 
   scoreboard.classList.toggle("stopped", stopped);
   panel.classList.toggle("stopped", stopped);
+}
+
+async function startMusic() {
+  if (musicOn) {
+    return;
+  }
+
+  await music.play();
+  musicOn = true;
+  musicButton.textContent = "音楽 OFF";
+}
+
+function stopMusic() {
+  musicOn = false;
+  musicButton.textContent = "音楽 ON";
+  music.pause();
 }
 
 window.addEventListener("keydown", (event) => {
@@ -84,6 +106,16 @@ resumeButton.addEventListener("click", () => {
   stopped = false;
   render();
   resumeButton.blur();
+});
+
+musicButton.addEventListener("click", async () => {
+  if (musicOn) {
+    stopMusic();
+  } else {
+    await startMusic();
+  }
+
+  musicButton.blur();
 });
 
 render();
