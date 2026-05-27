@@ -1,4 +1,4 @@
-const INITIAL_SCORE = 100;
+const INITIAL_SCORE = 50;
 const URGENCY_CLASSES = ["urgency-low", "urgency-medium", "urgency-high", "urgency-critical", "score-empty"];
 
 let score = INITIAL_SCORE;
@@ -20,11 +20,13 @@ music.loop = true;
 music.preload = "auto";
 
 function getUrgencyClass() {
+  const scoreRatio = score / INITIAL_SCORE;
+
   if (score === 0) return "score-empty";
-  if (score <= 10) return "urgency-critical";
-  if (score <= 25) return "urgency-high";
-  if (score <= 50) return "urgency-medium";
-  if (score <= 75) return "urgency-low";
+  if (scoreRatio <= 0.1) return "urgency-critical";
+  if (scoreRatio <= 0.25) return "urgency-high";
+  if (scoreRatio <= 0.5) return "urgency-medium";
+  if (scoreRatio <= 0.75) return "urgency-low";
   return "";
 }
 
@@ -33,7 +35,7 @@ function render() {
   const scoreRatio = score / INITIAL_SCORE;
 
   scoreEl.textContent = String(score);
-  gaugeFill.style.width = `${score}%`;
+  gaugeFill.style.width = `${scoreRatio * 100}%`;
   gaugeFill.style.opacity = String(0.28 + scoreRatio * 0.72);
   gauge.setAttribute("aria-valuenow", String(score));
   statusEl.textContent = stopped ? "停止" : "進行中";
